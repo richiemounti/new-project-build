@@ -7,18 +7,22 @@ Politico uses data structures to store information
 
 # Installation instructions
 1 Clone the repo
+
     git clone https://github.com/richiemounti/new-project-build.git
 
 2 Navigate to the root folder
+
     cd new-project-build
 
 3 Set up a virtual environment
+
     #linux
      virtualenv venv
     #windows
      python -m virtualenv venv
      
 4 Activate virtual environment
+
     #linux
      source venv/bin/activate
     #windows
