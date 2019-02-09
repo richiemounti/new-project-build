@@ -1,7 +1,7 @@
 import copy
 
 from flask import (
-    Blueprint, request, jsonify, make_response
+    Blueprint, request, jsonify, make_response, abort
 )
 
 
@@ -14,13 +14,15 @@ from politicer.models.party_models import Party, parties
 @bp.route('/v1/admin/party', methods=['POST'])
 def create_party():
     data = Views.get_data()
+   
+    validateparty(data)
 
     new_party = Party (
         data["name"],
         data["hqAddress"],
         data["logoUrl"]
-    )
-    
+    )   
+
     new_party.save_party()
     details = new_party.detail_list()
 
@@ -71,3 +73,30 @@ def party_delete(x):
         parties[x].delete_party()
         res = jsonify({"status": 200, "data": "Party {} deleted".format(x)})
         return (res, 200)
+
+
+@bp.route('/v1/d')
+def parties_delete(x):
+    parties[x].delete_parties()
+    res = jsonify({"status": 200, "data": "parties deleted"})
+    return (res, 200)
+
+
+
+'''
+VALIDATIONS
+'''
+def validateparty(new_party):
+    '''This function validates new party inputs '''
+
+    for key, value in new_party.items():
+        # ensure keys have values
+        if not value:
+            return abort(make_response(jsonify({"message":"{} is lacking. it is a required field".format(key)})))
+        # validate length
+        if key == "name" or key == "hqAddress":
+            if len(value) < 3:
+                return abort(make_response(jsonify({"message":"The {} provided is too short".format(key)}), 400))
+            elif len(value) > 20:
+                return abort(make_response(jsonify({"message":"The {} provided is too long".format(key)}), 400))
+

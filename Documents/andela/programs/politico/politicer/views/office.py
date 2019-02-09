@@ -1,7 +1,7 @@
 import copy
 
 from flask import (
-    Blueprint, request, jsonify, make_response
+    Blueprint, request, jsonify, make_response, abort
 )
 
 
@@ -14,6 +14,8 @@ from politicer.models.office_models import Office, offices, officeTypes
 @bp.route('/v1/admin/office', methods=['POST'])
 def create_office():
     data = Views.get_data()
+
+    validateoffice(data)
 
     new_office = Office (
         data["name"],
@@ -67,4 +69,22 @@ def office_update(x):
         return make_response(res, 202)
     res = jsonify({"status": 404, "error": "office with id {} not found".format(x)})
     return make_response(res, 404)
+
+
+'''
+VALIDATIONS
+'''
+def validateoffice(new_office):
+    '''This function validates new party inputs '''
+
+    for key, value in new_office.items():
+        # ensure keys have values
+        if not value:
+            return abort(make_response(jsonify({"message":"{} is lacking. it is a required field".format(key)})))
+        # validate length
+        if key == "name" or key == "type":
+            if len(value) < 3:
+                return abort(make_response(jsonify({"message":"The {} provided is too short".format(key)}), 400))
+            elif len(value) > 20:
+                return abort(make_response(jsonify({"message":"The {} provided is too long".format(key)}), 400))
 

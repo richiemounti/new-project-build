@@ -1,6 +1,6 @@
-from flask import request
+from flask import request, make_response, jsonify
 from politicer.models.party_models import parties
-
+from politicer.models.office_models import offices
 
 class Views(object):
         
@@ -21,6 +21,11 @@ class Views(object):
             except:
                 data = dict() 
     '''
+    @staticmethod
+    def destroy_lists():
+        parties.clear()
+        offices.clear()
+        return make_response(jsonify({"message":"Done", "status" : 200}))
 
     
     
