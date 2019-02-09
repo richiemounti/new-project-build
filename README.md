@@ -36,7 +36,9 @@ Politico uses data structures to store information
      - set FLASK_ENV=development
 6 Manually Running tests
 
-   python -m pytest --cov=app
+     python -m pytest --cov=app
+   
+   
 7 Start the server
 
    flask run
