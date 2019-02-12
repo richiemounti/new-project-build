@@ -38,12 +38,15 @@ class Party():
     def save_party(self):
         parties[self.id] = self
 
-    def update_name(self, name):
+    def update_name(self, name, hqAddress):
         self.name = name
+        self.hqAddress = hqAddress
 
     def delete_party(self):
         del parties[self.id]
-
+    
+    def delete_parties(self):
+        parties.clear()
 
     def check_name(self, name=None):
         if name == None:
