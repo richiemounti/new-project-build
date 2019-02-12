@@ -30,6 +30,7 @@ def create_party():
     return make_response(res, 201)
 
 
+
 # get all parties
 @bp.route('/v1/user/party', methods=['GET'])
 def parties_list():
@@ -59,7 +60,7 @@ def party_update(x):
     data = Views.get_data()
 
     if x in parties:
-        parties[x].update_name(data['name'])
+        parties[x].update_name(data['name'], data['hqAddress'])
         res = jsonify({"status": 202, "data": parties[x].detail_list()})
         return make_response(res, 202)
 
