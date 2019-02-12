@@ -1,0 +1,9 @@
+# ignoring all files inside the poenv folder
+poenv/
+
+# ignoring all files in .vscode
+.vscode/
+
+# ignoring __pycache__ and .pytest_cache
+__pycache__
+.pytest_cache
